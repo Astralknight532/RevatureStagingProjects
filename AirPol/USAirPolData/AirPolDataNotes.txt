@@ -1,0 +1,4 @@
+O3 (ozone) code = 44201
+SO2 code = 42401
+CO code = 42101
+NO2 code = 42602
