@@ -1,4 +1,6 @@
-O3 (ozone) code = 44201
-SO2 code = 42401
-CO code = 42101
-NO2 code = 42602
+O3 (ozone) code = 44201 (units: PPM/parts per million)
+SO2 code = 42401 (units: PPB/parts per billion)
+CO code = 42101 (units: PPM/parts per million)
+NO2 code = 42602 (units: PPB/parts per billion)
+PM2.5 non-FRM/FEM mass (units: micrograms per cubic meter)
+PM10 mass (units: micrograms per cubic meter)
