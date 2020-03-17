@@ -16,5 +16,5 @@ def dt_convert(data:pd.Series) -> pd.Series:
 
 # Converts the passed string values into type float64 - extracts strings using regex
 def float_convert(data:pd.Series) -> pd.Series:
-    data = data.str.extract('(\d+\.\d+)').astype('float64')
+    data = data.str.extract('(\d*\.\d*)').astype('float64')
     return data
