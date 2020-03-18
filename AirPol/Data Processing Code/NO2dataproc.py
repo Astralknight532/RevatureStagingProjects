@@ -7,16 +7,16 @@ Created on Tue Mar 17 10:48:16 2020
 
 # Import needed libraries
 #import customfunctions as cf # a Python file with functions I wrote for repetitive tasks
-import pandas as pd
 import os
-#from keras.models import Sequential
-#from keras.layers import Dense, LSTM, Dropout
-from keras.optimizers import SGD
-#from keras.preprocessing.sequence import TimeseriesGenerator
+import pandas as pd
 #from numpy import array
 #import matplotlib.pyplot as plt
 #import plotly.graph_objects as go
 #import plotly.express as px
+#from keras.preprocessing.sequence import TimeseriesGenerator
+#from keras.optimizers import SGD
+#from keras.models import Sequential
+#from keras.layers import Dense, LSTM, Dropout
 
 # Read in the data (multiple CSV files, 1 file per year of data from the 1980s to 2019)
 no2_datadir = r'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Raw Data'
@@ -50,12 +50,14 @@ if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolDat
 cleaned_no2csv = 'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data/cleaned_NO2Data.csv'
 #no2_df.to_csv(cleaned_no2csv, date_format = '%Y-%m-%d')
 
+# Plotting the data used to train the model
+
 # Split the data into the train/test sets based on the date
 
 # Set up the Keras TimeSeriesGenerator for converting the data into a form recognizable by the model
 
 # Defining an alternate optimizer (in case the ADAM optimizer doesn't work well for this application)
-opt = SGD(lr = 0.01, momentum = 0.9, nesterov = True)
+#opt = SGD(lr = 0.01, momentum = 0.9, nesterov = True)
 
 # Defining the model's structure
 
@@ -66,7 +68,5 @@ opt = SGD(lr = 0.01, momentum = 0.9, nesterov = True)
 # Save the model as an HDF5 object (as an .h5 file)
 
 # Make a test prediction
-
-# Plotting the data used to train the model
 
 # Plotting the model's performance metrics
