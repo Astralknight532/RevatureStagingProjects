@@ -23,7 +23,7 @@ no2_datadir = r'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 D
 no2_df = pd.DataFrame()
 for f in os.listdir(no2_datadir):
     if f.endswith(".csv"):
-        no2_df = no2_df.append(pd.read_csv(os.path.join(no2_datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean'], encoding = 'utf-8-sig', low_memory = False), ignore_index = True)
+        no2_df = no2_df.append(pd.read_csv(os.path.join(no2_datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean', 'Latitude', 'Longitude'], encoding = 'utf-8-sig', low_memory = False)[['Date Local', 'Arithmetic Mean', 'Latitude', 'Longitude']], ignore_index = True)
 
 # Get info about the data
 #print(no2_df.info())
@@ -44,9 +44,9 @@ if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolDat
     os.mkdir('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data')
 
 # Saving the cleaned data as a CSV file in the folder above
-#print(no2_df.info())
-#print("The first 5 rows of the NO2 data:\n%s\n" % no2_df.head())
-#print("The last 5 rows of the NO2 data:\n%s" % no2_df.tail())
+print(no2_df.info())
+print("The first 5 rows of the NO2 data:\n%s\n" % no2_df.head())
+print("The last 5 rows of the NO2 data:\n%s" % no2_df.tail())
 cleaned_no2csv = 'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data/cleaned_NO2Data.csv'
 #no2_df.to_csv(cleaned_no2csv, date_format = '%Y-%m-%d')
 
