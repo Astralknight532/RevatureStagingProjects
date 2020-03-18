@@ -26,9 +26,9 @@ def d_to_r(deg): # degrees to radians
 def r_to_d(rad): # radians to degrees
     return (rad * 180) / m.pi
 
-# Distance between 2 latitude-longitude points
+# Distance between 2 latitude-longitude points in kilometers
 def lat_long_dist(lat1, long1, lat2, long2):
-    earth_r = 6378
+    earth_r = 6378 # radius of the Earth in kilometers
     lat_dif = d_to_r(lat2 - lat1)
     long_dif = d_to_r(long2 - long1)
     s1 = (m.sin(lat_dif / 2) ** 2) + (m.cos(d_to_r(lat1)) * m.cos(d_to_r(lat2))) * (m.sin(long_dif / 2) ** 2)
