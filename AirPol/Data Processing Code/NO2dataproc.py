@@ -23,7 +23,7 @@ no2_datadir = r'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 D
 no2_df = pd.DataFrame()
 for f in os.listdir(no2_datadir):
     if f.endswith(".csv"):
-        no2_df = no2_df.append(pd.read_csv(os.path.join(no2_datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean', 'Latitude', 'Longitude'], encoding = 'utf-8-sig', low_memory = False)[['Date Local', 'Arithmetic Mean', 'Latitude', 'Longitude']], ignore_index = True)
+        no2_df = no2_df.append(pd.read_csv(os.path.join(no2_datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean'], encoding = 'utf-8-sig', low_memory = False)[['Date Local', 'Arithmetic Mean']], ignore_index = True)
 
 # Get info about the data
 #print(no2_df.info())
@@ -38,17 +38,32 @@ no2_df.sort_values(by = ['Date Local'], ascending = True, inplace = True, kind =
 #no2_df = no2_df.drop_duplicates('Date Local') # Drop duplicate rows/entries in the data - reconsider since there are multiple readings per day (i.e. different locations, same date)
 #for c in no2_df['Arithmetic Mean'].values: # Fill in null values with the mean of the data
 #    no2_df['Arithmetic Mean'] = no2_df['Arithmetic Mean'].fillna(no2_df['Arithmetic Mean'].mean())
+#print(no2_df[no2_df['Date Local'] == '1980-01-01'].count())
+#print(no2_df[no2_df['Date Local'] == '1980-01-01'].mean())
+
+# Creating a new dataframe with the average daily concentration of NO2
+# Calculate the mean for each day
+no2_means = []
+for u in no2_df['Date Local'].unique():
+    no2_means.append(no2_df[no2_df['Date Local'] == u].mean())
+#print(no2_means)
+
+# Setting up a dictionary containing the new data
+no2_rd = {'Date': [no2_df['Date Local'].unique()], 'Average NO2 Concentration': no2_means}
+
+# Converting the dictionary into a pandas Dataframe
+no2_finalDF = pd.DataFrame(no2_rd, columns = ['Date', 'Average NO2 Concentration'])
 
 # Checking for the folder to store the cleaned data in & creating it if it doesn't exist
 if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data'):
     os.mkdir('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data')
 
 # Saving the cleaned data as a CSV file in the folder above
-print(no2_df.info())
-print("The first 5 rows of the NO2 data:\n%s\n" % no2_df.head())
-print("The last 5 rows of the NO2 data:\n%s" % no2_df.tail())
+print(no2_finalDF.info())
+print("The first 5 rows of the NO2 data:\n%s\n" % no2_finalDF.head())
+print("The last 5 rows of the NO2 data:\n%s" % no2_finalDF.tail())
 cleaned_no2csv = 'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data/cleaned_NO2Data.csv'
-#no2_df.to_csv(cleaned_no2csv, date_format = '%Y-%m-%d')
+#no2_finalDF.to_csv(cleaned_no2csv, date_format = '%Y-%m-%d')
 
 # Plotting the data used to train the model
 
