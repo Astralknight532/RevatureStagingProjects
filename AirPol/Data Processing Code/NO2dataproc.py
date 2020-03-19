@@ -9,6 +9,7 @@ Created on Tue Mar 17 10:48:16 2020
 #import customfunctions as cf # a Python file with functions I wrote for repetitive tasks
 import os
 import pandas as pd
+#from time import strftime
 #from numpy import array
 #import matplotlib.pyplot as plt
 #import plotly.graph_objects as go
@@ -49,21 +50,25 @@ for u in no2_df['Date Local'].unique():
 #print(no2_means)
 
 # Setting up a dictionary containing the new data
-no2_rd = {'Date': no2_df['Date Local'].unique(), 'Average NO2 Concentration': no2_means}
+no2_rd = {'Date': no2_df['Date Local'].unique(), 'Average_NO2_Concentration': no2_means}    
 
 # Converting the dictionary into a pandas Dataframe
-no2_finalDF = pd.DataFrame(no2_rd, columns = ['Date', 'Average NO2 Concentration'])
+no2_finalDF = pd.DataFrame(no2_rd, columns = ['Date', 'Average_NO2_Concentration'])
+for d in no2_finalDF['Date']: # Setting the date format to YYYY-MM-DD
+    no2_finalDF.loc[no2_finalDF.Date == d, 'Date'] = d.strftime('%Y-%m-%d')
+no2_finalDF['Average_NO2_Concentration'] = no2_finalDF['Average_NO2_Concentration'].astype(str) # Converting the values of this column into strings (for use with regex)   
+no2_finalDF['Average_NO2_Concentration'] = no2_finalDF['Average_NO2_Concentration'].str.extract('(\d*\.\d*)').astype('float64') # Extracting only the number from the string and converting it to a float  
 
 # Checking for the folder to store the cleaned data in & creating it if it doesn't exist
-if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data'):
-    os.mkdir('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data')
+#if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data'):
+#    os.mkdir('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data')
 
 # Saving the cleaned data as a CSV file in the folder above
-print(no2_finalDF.info())
-print("The first 5 rows of the NO2 data:\n%s\n" % no2_finalDF.head())
-print("The last 5 rows of the NO2 data:\n%s" % no2_finalDF.tail())
+#print(no2_finalDF.info())
+#print("The first 5 rows of the NO2 data:\n%s\n" % no2_finalDF.head())
+#print("The last 5 rows of the NO2 data:\n%s" % no2_finalDF.tail())
 cleaned_no2csv = 'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data/cleaned_NO2Data.csv'
-#no2_finalDF.to_csv(cleaned_no2csv, date_format = '%Y-%m-%d')
+no2_finalDF.to_csv(cleaned_no2csv, date_format = '%Y-%m-%d')
 
 # Plotting the data used to train the model
 

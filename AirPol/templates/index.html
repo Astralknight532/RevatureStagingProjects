@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles.css')}}"/>
+    <title>Air Quality Predictor</title>
+</head>
+<body>
+    <header>
+        <h1>Air Quality Prediction Project</h1>
+        <p> By: Hanan Kwok</p>
+    </header>
+
+    <form method="POST", action="/", id="AQform">
+        <p>Enter a date (format: YYYY-MM-DD):</p>
+        <p>
+            <input type="text" placeholder="YYYY-MM-DD" name="dateentry"/>
+        </p>
+        <p>Choose a pollutant:</p>
+        <p>
+            <select form="AQform" name="polselect">
+                <option>NO2</option>
+                <option>SO2</option>
+                <option>O3</option>
+                <option>CO</option>
+            </select>
+        </p>
+        <p>
+            <input type="submit" value="Get Prediction"/>
+        </p>
+    </form>
+    <section>
+        {% block result %}
+        {% endblock %}
+    </section> 
+</body>
+</html>
