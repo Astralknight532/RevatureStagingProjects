@@ -49,7 +49,7 @@ for u in no2_df['Date Local'].unique():
 #print(no2_means)
 
 # Setting up a dictionary containing the new data
-no2_rd = {'Date': [no2_df['Date Local'].unique()], 'Average NO2 Concentration': no2_means}
+no2_rd = {'Date': no2_df['Date Local'].unique(), 'Average NO2 Concentration': no2_means}
 
 # Converting the dictionary into a pandas Dataframe
 no2_finalDF = pd.DataFrame(no2_rd, columns = ['Date', 'Average NO2 Concentration'])
