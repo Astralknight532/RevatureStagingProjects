@@ -15,8 +15,8 @@ from keras.optimizers import SGD
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, Dropout
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-import plotly.express as px
+#import plotly.graph_objects as go
+#import plotly.express as px
 
 # Read in the data (multiple CSV files, 1 file per year of data from 1980 to 2019)
 co_datadir = r'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/CO Data/Raw Data'
@@ -66,7 +66,8 @@ co_finalDF.to_csv(cleaned_cocsv, date_format = '%Y-%m-%d')
 # Checking for the folder that plotly figures will be saved in, creating it if it doesn't exist
 if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/plotly figures'):
     os.mkdir('C:/Users/hanan/Desktop/StagingProjects/AirPol/plotly figures')
- 
+    
+''' 
 # Plotting the data used to train the model (the daily average concentration of CO in PPM)
 co_fig = px.scatter(co_finalDF, x = 'Date', y = 'Average_CO_Concentration', width = 3000, height = 2500)
 co_fig.add_trace(go.Scatter(
@@ -89,6 +90,7 @@ co_fig.update_layout(
 co_fig.update_xaxes(automargin = True)
 co_fig.update_yaxes(automargin = True)
 co_fig.write_image('C:/Users/hanan/Desktop/StagingProjects/AirPol/plotly figures/avg_co.png')
+'''
 
 # Split the data into the train/test sets based on the date
 co_mask_train = (co_finalDF['Date'] < '2019-01-01')
