@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 #import plotly.graph_objects as go
 #import plotly.express as px
 
-# Read in the data (multiple CSV files, 1 file per year of data from the 1980s to 2019)
+# Read in the data (multiple CSV files, 1 file per year of data from 1980 to 2019)
 no2_datadir = r'C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Raw Data'
 no2_df = pd.DataFrame()
 for f in os.listdir(no2_datadir):
@@ -26,17 +26,20 @@ for f in os.listdir(no2_datadir):
         no2_df = no2_df.append(pd.read_csv(os.path.join(no2_datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean'], encoding = 'utf-8-sig', low_memory = False)[['Date Local', 'Arithmetic Mean']], ignore_index = True)
 
 # Get info about the data
-#print(no2_df.info())
-#print("The first 5 rows of the NO2 data:\n%s\n" % no2_df.head())
-#print("The last 5 rows of the NO2 data:\n%s" % no2_df.tail())
+#print("Info about the data(raw): \n%s\n" % no2_df.info())
+#print("The first 5 rows of the NO2 data(raw):\n%s\n" % no2_df.head())
+#print("The last 5 rows of the NO2 data(raw):\n%s" % no2_df.tail())
 
-# Perform data cleaning on the Pandas dataframes as needed (there are issues with the sorting, do not use it)
+# Perform data cleaning on the Pandas dataframes as needed
 no2_df.sort_values(by = ['Date Local'], ascending = True, inplace = True, kind = 'mergesort', ignore_index = True) # Sort the rows by date in ascending order
 #no2_df = no2_df.drop_duplicates('Date Local') # Drop duplicate rows/entries in the data - reconsider since there are multiple readings per day (i.e. different locations, same date)
 #for c in no2_df['Arithmetic Mean'].values: # Fill in null values with the mean of the data
 #    no2_df['Arithmetic Mean'] = no2_df['Arithmetic Mean'].fillna(no2_df['Arithmetic Mean'].mean())
 #print(no2_df[no2_df['Date Local'] == '1980-01-01'].count())
 #print(no2_df[no2_df['Date Local'] == '1980-01-01'].mean())
+#print("Info about the data(sorted): \n%s\n" % no2_df.info())
+#print("The first 5 rows of the NO2 data(sorted):\n%s\n" % no2_df.head())
+#print("The last 5 rows of the NO2 data(sorted):\n%s" % no2_df.tail())
 
 # Creating a new dataframe with the average daily concentration of NO2 and the corresponding date
 # Calculate the mean for each day
@@ -53,9 +56,9 @@ for d in no2_finalDF['Date']: # Setting the date format to YYYY-MM-DD
     no2_finalDF.loc[no2_finalDF.Date == d, 'Date'] = d.strftime('%Y-%m-%d')
 no2_finalDF['Average_NO2_Concentration'] = no2_finalDF['Average_NO2_Concentration'].astype(str) # Converting the values of this column into strings (for use with regex)   
 no2_finalDF['Average_NO2_Concentration'] = no2_finalDF['Average_NO2_Concentration'].str.extract('(\d*\.\d*)').astype('float64') # Extracting only the number from the string and converting it to a float  
-#print(no2_finalDF.info())
-#print("The first 5 rows of the NO2 data:\n%s\n" % no2_finalDF.head())
-#print("The last 5 rows of the NO2 data:\n%s" % no2_finalDF.tail())
+#print("Info about the data(clean): \n%s\n" % no2_finalDF.info())
+#print("The first 5 rows of the NO2 data(clean):\n%s\n" % no2_finalDF.head())
+#print("The last 5 rows of the NO2 data(clean):\n%s" % no2_finalDF.tail())
 
 # Checking for the folder to store the cleaned data in & creating it if it doesn't exist
 if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/NO2 Data/Clean Data'):
