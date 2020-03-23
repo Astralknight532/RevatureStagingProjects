@@ -13,8 +13,8 @@ no2_model = load_model('C:/Users/hanan/Desktop/StagingProjects/AirPol/Saved Mode
 so2_model = load_model('C:/Users/hanan/Desktop/StagingProjects/AirPol/Saved Models/so2_model.h5') # SO2 model
 o3_model = load_model('C:/Users/hanan/Desktop/StagingProjects/AirPol/Saved Models/o3_model.h5') # O3 model
 co_model = load_model('C:/Users/hanan/Desktop/StagingProjects/AirPol/Saved Models/co_model.h5') # CO model
-#pm25_model = load_model('C:/Users/hanan/Desktop/StagingProjects/AirPol/Saved Models/pm25_model.h5') # PM2.5 model
-#pm10_model = load_model('C:/Users/hanan/Desktop/StagingProjects/AirPol/Saved Models/pm10_model.h5') # PM10 model
+pm25_model = load_model('C:/Users/hanan/Desktop/StagingProjects/AirPol/Saved Models/pm25_model.h5') # PM2.5 model
+pm10_model = load_model('C:/Users/hanan/Desktop/StagingProjects/AirPol/Saved Models/pm10_model.h5') # PM10 model
 
 @app.route("/", methods=["GET"])
 def home_page():
@@ -42,23 +42,23 @@ def predict_result():
     elif pol == 'CO':
         #print('CO Model')
         avgconc = co_model.predict(pred_input)[0][0]
-    #elif pol == 'PM2.5':
+    elif pol == 'PM2.5':
         #print('PM2.5 Model')
-    #   avgconc = pm25_model.predict(pred_input)[0][0]
-    #elif pol == 'PM10':
-         #print('PM10 Model')
-    #   avgconc = pm10_model.predict(pred_input)[0][0]
+        avgconc = pm25_model.predict(pred_input)[0][0]
+    elif pol == 'PM10':
+        #print('PM10 Model')
+        avgconc = pm10_model.predict(pred_input)[0][0]
 
     # Convert the predicted value into a string for displaying on the webpage
     avgconc_print = f'{avgconc:.3f}'
 
     # Appending the appropriate unit of measurement to the predicted value depending on which pollutant was chosen
     if pol == 'NO2' or pol == 'SO2':
-        avgconc_print += ' parts per billion'
+        avgconc_print += ' PPB (parts per billion)'
     elif pol == 'O3' or pol == 'CO':
-        avgconc_print += ' parts per million'
-    #elif pol == 'PM2.5' or pol == 'PM10':
-    #    avgconc_print += ' micrograms per cubic meter'
+        avgconc_print += ' PPM (parts per million)'
+    elif pol == 'PM2.5' or pol == 'PM10':
+        avgconc_print += ' µg/m^3 (micrograms per cubic meter)'
 
     # Returning the final template for display on the webpage
     return render_template("results.html", chosendate = str(date.strftime('%Y-%m-%d')), pollutant = pol, avgconc = avgconc_print)

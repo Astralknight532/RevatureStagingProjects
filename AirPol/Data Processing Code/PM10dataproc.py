@@ -9,12 +9,12 @@ Created on Fri Mar 20 11:35:21 2020
 #import customfunctions as cf # a Python file with functions I wrote for repetitive tasks
 import os
 import pandas as pd
-#from numpy import array
-#from keras.preprocessing.sequence import TimeseriesGenerator
-#from keras.optimizers import SGD
-#from keras.models import Sequential
-#from keras.layers import Dense, LSTM, Dropout
-#import matplotlib.pyplot as plt
+from numpy import array
+from keras.preprocessing.sequence import TimeseriesGenerator
+from keras.optimizers import SGD
+from keras.models import Sequential
+from keras.layers import Dense, LSTM, Dropout
+import matplotlib.pyplot as plt
 #import plotly.graph_objects as go
 #import plotly.express as px
 
@@ -26,17 +26,16 @@ for f in os.listdir(pm10datadir):
         pm10df = pm10df.append(pd.read_csv(os.path.join(pm10datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean'], encoding = 'utf-8-sig', low_memory = False)[['Date Local', 'Arithmetic Mean']], ignore_index = True)
 
 # Get info about the data
-print("Info about the PM10 data(raw): \n%s\n" % pm10df.info())
-print("The first 5 rows of the PM10 data(raw):\n%s\n" % pm10df.head())
-print("The last 5 rows of the PM10 data(raw):\n%s\n" % pm10df.tail())
+#print("Info about the PM10 data(raw): \n%s\n" % pm10df.info())
+#print("The first 5 rows of the PM10 data(raw):\n%s\n" % pm10df.head())
+#print("The last 5 rows of the PM10 data(raw):\n%s\n" % pm10df.tail())
         
 # Perform data cleaning on the Pandas dataframes as needed
 pm10df.sort_values(by = ['Date Local'], ascending = True, inplace = True, kind = 'mergesort', ignore_index = True) # Sort the rows by date in ascending order
-print("Info about the PM10 data(sorted): \n%s\n" % pm10df.info())
-print("The first 5 rows of the PM10 data(sorted): \n%s\n" % pm10df.head())
-print("The last 5 rows of the PM10 data(sorted): \n%s" % pm10df.tail())
+#print("Info about the PM10 data(sorted): \n%s\n" % pm10df.info())
+#print("The first 5 rows of the PM10 data(sorted): \n%s\n" % pm10df.head())
+#print("The last 5 rows of the PM10 data(sorted): \n%s" % pm10df.tail())
 
-'''
 # Creating a new dataframe with the average daily concentration of PM10 and the corresponding date
 # Calculate the mean for each day
 pm10means = []
@@ -52,9 +51,9 @@ for d in pm10_finalDF['Date']: # Setting the date format to YYYY-MM-DD
     pm10_finalDF.loc[pm10_finalDF.Date == d, 'Date'] = d.strftime('%Y-%m-%d')
 pm10_finalDF['Average_PM10_Concentration'] = pm10_finalDF['Average_PM10_Concentration'].astype(str) # Converting the values of this column into strings (for use with regex)   
 pm10_finalDF['Average_PM10_Concentration'] = pm10_finalDF['Average_PM10_Concentration'].str.extract('(\d*\.\d*)').astype('float64') # Extracting only the number from the string and converting it to a float  
-#print("Info about the PM10 data(clean): \n%s\n" % pm10_finalDF.info())
-#print("The first 5 rows of the PM10 data(clean):\n%s\n" % pm10_finalDF.head())
-#print("The last 5 rows of the PM10 data(clean):\n%s" % pm10_finalDF.tail())
+print("Info about the PM10 data(clean): \n%s\n" % pm10_finalDF.info())
+print("The first 5 rows of the PM10 data(clean):\n%s\n" % pm10_finalDF.head())
+print("The last 5 rows of the PM10 data(clean):\n%s" % pm10_finalDF.tail())
 
 # Checking for the folder to store the cleaned data in & creating it if it doesn't exist
 if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/USAirPolData/PM10_mass/Clean Data'):
@@ -67,7 +66,8 @@ pm10_finalDF.to_csv(cleaned_pm10csv, date_format = '%Y-%m-%d')
 # Checking for the folder that plotly figures will be saved in, creating it if it doesn't exist
 if not os.path.exists('C:/Users/hanan/Desktop/StagingProjects/AirPol/plotly figures'):
     os.mkdir('C:/Users/hanan/Desktop/StagingProjects/AirPol/plotly figures')
-    
+
+'''    
 # Plotting the data used to train the model (the daily average concentration of PM10 in µg/m^3 - micrograms per cubic meter)
 pm10_fig = px.scatter(pm10_finalDF, x = 'Date', y = 'Average_PM10_Concentration', width = 3000, height = 2500)
 pm10_fig.add_trace(go.Scatter(
@@ -90,6 +90,7 @@ pm10_fig.update_layout(
 pm10_fig.update_xaxes(automargin = True)
 pm10_fig.update_yaxes(automargin = True)
 pm10_fig.write_image('C:/Users/hanan/Desktop/StagingProjects/AirPol/plotly figures/avg_pm10.png')
+'''
 
 # Split the data into the train/test sets based on the date
 pm10_masktrain = (pm10_finalDF['Date'] < '2019-01-01')
@@ -124,8 +125,8 @@ pm10_mod = Sequential([
 ])
 
 # Compiling & fitting the model
-pm25_mod.compile(optimizer = opt, loss = 'mean_squared_logarithmic_error', metrics = ['mse'])
-history = pm25_mod.fit_generator(
+pm10_mod.compile(optimizer = opt, loss = 'mean_squared_logarithmic_error', metrics = ['mse'])
+history = pm10_mod.fit_generator(
     train_gen, 
     steps_per_epoch = 10, 
     epochs = 500,
@@ -162,4 +163,3 @@ plt.plot(history.history['mse'], label = 'MSE', color = 'red')
 plt.plot(history.history['loss'], label = 'MSLE', color = 'blue')
 plt.legend()
 plt.savefig('C:/Users/hanan/Desktop/StagingProjects/AirPol/matplotlib figures/pm10_modelmetrics.png')
-'''
