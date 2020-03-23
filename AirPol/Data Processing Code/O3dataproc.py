@@ -26,13 +26,13 @@ for f in os.listdir(o3_datadir):
         o3_df = o3_df.append(pd.read_csv(os.path.join(o3_datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean'], encoding = 'utf-8-sig', low_memory = False)[['Date Local', 'Arithmetic Mean']], ignore_index = True)
 
 # Get info about the data
-#print("Info about the data(raw): \n%s\n" % o3_df.info())
+#print("Info about the O3 data(raw): \n%s\n" % o3_df.info())
 #print("The first 5 rows of the O3 data(raw):\n%s\n" % o3_df.head())
 #print("The last 5 rows of the O3 data(raw):\n%s\n" % o3_df.tail())
         
 # Perform data cleaning on the Pandas dataframes as needed
 o3_df.sort_values(by = ['Date Local'], ascending = True, inplace = True, kind = 'mergesort', ignore_index = True) # Sort the rows by date in ascending order
-#print("Info about the data(sorted): \n%s\n" % o3_df.info())
+#print("Info about the O3 data(sorted): \n%s\n" % o3_df.info())
 #print("The first 5 rows of the O3 data(sorted): \n%s\n" % o3_df.head())
 #print("The last 5 rows of the O3 data(sorted): \n%s" % o3_df.tail())
 

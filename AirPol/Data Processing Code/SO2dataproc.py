@@ -26,13 +26,13 @@ for f in os.listdir(so2_datadir):
         so2_df = so2_df.append(pd.read_csv(os.path.join(so2_datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean'], encoding = 'utf-8-sig', low_memory = False)[['Date Local', 'Arithmetic Mean']], ignore_index = True)
 
 # Get info about the data
-#print("Info about the data(raw): \n%s\n" % so2_df.info())
+#print("Info about the SO2 data(raw): \n%s\n" % so2_df.info())
 #print("The first 5 rows of the SO2 data(raw):\n%s\n" % so2_df.head())
 #print("The last 5 rows of the SO2 data(raw):\n%s\n" % so2_df.tail())
         
 # Perform data cleaning on the Pandas dataframes as needed
 so2_df.sort_values(by = ['Date Local'], ascending = True, inplace = True, kind = 'mergesort', ignore_index = True) # Sort the rows by date in ascending order
-#print("Info about the data(sorted): \n%s\n" % so2_df.info())
+#print("Info about the SO2 data(sorted): \n%s\n" % so2_df.info())
 #print("The first 5 rows of the SO2 data(sorted): \n%s\n" % so2_df.head())
 #print("The last 5 rows of the SO2 data(sorted): \n%s" % so2_df.tail())
 

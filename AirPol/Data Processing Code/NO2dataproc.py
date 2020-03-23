@@ -26,18 +26,13 @@ for f in os.listdir(no2_datadir):
         no2_df = no2_df.append(pd.read_csv(os.path.join(no2_datadir, f), parse_dates = ['Date Local'], infer_datetime_format = True, squeeze = True, usecols = ['Date Local', 'Arithmetic Mean'], encoding = 'utf-8-sig', low_memory = False)[['Date Local', 'Arithmetic Mean']], ignore_index = True)
 
 # Get info about the data
-#print("Info about the data(raw): \n%s\n" % no2_df.info())
+#print("Info about the NO2 data(raw): \n%s\n" % no2_df.info())
 #print("The first 5 rows of the NO2 data(raw):\n%s\n" % no2_df.head())
 #print("The last 5 rows of the NO2 data(raw):\n%s" % no2_df.tail())
 
 # Perform data cleaning on the Pandas dataframes as needed
 no2_df.sort_values(by = ['Date Local'], ascending = True, inplace = True, kind = 'mergesort', ignore_index = True) # Sort the rows by date in ascending order
-#no2_df = no2_df.drop_duplicates('Date Local') # Drop duplicate rows/entries in the data - reconsider since there are multiple readings per day (i.e. different locations, same date)
-#for c in no2_df['Arithmetic Mean'].values: # Fill in null values with the mean of the data
-#    no2_df['Arithmetic Mean'] = no2_df['Arithmetic Mean'].fillna(no2_df['Arithmetic Mean'].mean())
-#print(no2_df[no2_df['Date Local'] == '1980-01-01'].count())
-#print(no2_df[no2_df['Date Local'] == '1980-01-01'].mean())
-#print("Info about the data(sorted): \n%s\n" % no2_df.info())
+#print("Info about the NO2 data(sorted): \n%s\n" % no2_df.info())
 #print("The first 5 rows of the NO2 data(sorted):\n%s\n" % no2_df.head())
 #print("The last 5 rows of the NO2 data(sorted):\n%s" % no2_df.tail())
 
