@@ -32,5 +32,5 @@ folium.GeoJson(us_base).add_to(us_map)
 for i, row in no2_df.iterrows():
     folium.CircleMarker((row.Latitude, row.Longitude), radius = 3, weight = 2, color = 'red', fill_color = 'red', fill_opacity = 0.5).add_to(us_map)
    
-# Saving the map as a HTML file
-us_map.save("C:/Users/hanan/Desktop/StagingProjects/AirPol/usmap_NO2monitor.html")    
+# Saving the map as a PNG image
+us_map.save("C:/Users/hanan/Desktop/StagingProjects/AirPol/usmap_NO2monitor.png")    
